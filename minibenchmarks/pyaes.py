@@ -308,31 +308,31 @@ class ECBMode(object):
         self.cipher = cipher
         self.block_size = cipher.block_size
 
-    def ecb(self, data, block_func):
+    def ecb(self, \data, block_func):
         """Perform ECB mode with the given function"""
 
-        if len(data) % self.block_size != 0:
+        if len(\data) % self.block_size != 0:
             raise ValueError, "Plaintext length must be multiple of 16"
 
         block_size = self.block_size
-        data = array('B', data)
+        \data = array('B', \data)
 
-        for offset in xrange(0, len(data), block_size):
-            block = data[offset : offset+block_size]
+        for offset in xrange(0, len(\data), block_size):
+            block = \data[offset : offset+block_size]
             block_func(block)
-            data[offset : offset+block_size] = block
+            \data[offset : offset+block_size] = block
 
-        return data.tostring()
+        return \data.tostring()
 
-    def encrypt(self, data):
+    def encrypt(self, \data):
         """Encrypt data in ECB mode"""
 
-        return self.ecb(data, self.cipher.encrypt_block)
+        return self.ecb(\data, self.cipher.encrypt_block)
 
-    def decrypt(self, data):
+    def decrypt(self, \data):
         """Decrypt data in ECB mode"""
 
-        return self.ecb(data, self.cipher.decrypt_block)
+        return self.ecb(\data, self.cipher.decrypt_block)
 
 #### CBC mode
 
@@ -351,57 +351,57 @@ class CBCMode(object):
         self.block_size = cipher.block_size
         self.IV = array('B', IV)
 
-    def encrypt(self, data):
+    def encrypt(self, \data):
         """Encrypt data in CBC mode"""
 
         block_size = self.block_size
-        if len(data) % block_size != 0:
+        if len(\data) % block_size != 0:
             raise ValueError, "Plaintext length must be multiple of 16"
 
-        data = array('B', data)
+        \data = array('B', \data)
         IV = self.IV
 
-        for offset in xrange(0, len(data), block_size):
-            block = data[offset : offset+block_size]
+        for offset in xrange(0, len(\data), block_size):
+            block = \data[offset : offset+block_size]
 
             # Perform CBC chaining
             for i in xrange(block_size):
                 block[i] ^= IV[i]
 
             self.cipher.encrypt_block(block)
-            data[offset : offset+block_size] = block
+            \data[offset : offset+block_size] = block
             IV = block
 
         self.IV = IV
-        return data.tostring()
+        return \data.tostring()
 
-    def decrypt(self, data):
+    def decrypt(self, \data):
         """Decrypt data in CBC mode"""
 
         block_size = self.block_size
-        if len(data) % block_size != 0:
+        if len(\data) % block_size != 0:
             raise ValueError, "Ciphertext length must be multiple of 16"
 
-        data = array('B', data)
+        \data = array('B', \data)
         IV = self.IV
 
-        for offset in xrange(0, len(data), block_size):
-            ctext = data[offset : offset+block_size]
+        for offset in xrange(0, len(\data), block_size):
+            ctext = \data[offset : offset+block_size]
             block = ctext[:]
             self.cipher.decrypt_block(block)
 
             # Perform CBC chaining
             #for i in xrange(block_size):
-            #    data[offset + i] ^= IV[i]
+            #    \data[offset + i] ^= IV[i]
             for i in xrange(block_size):
                 block[i] ^= IV[i]
-            data[offset : offset+block_size] = block
+            \data[offset : offset+block_size] = block
 
             IV = ctext
-            #data[offset : offset+block_size] = block
+            #\data[offset : offset+block_size] = block
 
         self.IV = IV
-        return data.tostring()
+        return \data.tostring()
 
 ####
 

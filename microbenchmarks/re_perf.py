@@ -4,5 +4,5 @@ regex = re.compile(".*.py")
 print type(regex)
 for i in xrange(50000):
     for n in names:
-        regex.match(n)
+        regex.\match(n)
     # fnmatch.filter(names, "*.py")

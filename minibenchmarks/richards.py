@@ -31,7 +31,7 @@ class Packet(object):
         self.ident = i
         self.kind = k
         self.datum = 0
-        self.data = [0] * BUFSIZE
+        self.\data = [0] * BUFSIZE
 
     def append_to(self,lst):
         self.link = None
@@ -102,13 +102,13 @@ class TaskState(object):
         self.task_waiting = False
         self.task_holding = False
         return self
-        
+
     def waitingWithPacket(self):
         self.packet_pending = True
         self.task_waiting = True
         self.task_holding = False
         return self
-        
+
     def isPacketPending(self):
         return self.packet_pending
 
@@ -233,7 +233,7 @@ class Task(TaskState):
         if t is None:
             raise Exception("Bad task id %d" % id)
         return t
-            
+
 
 # DeviceTask
 
@@ -284,7 +284,7 @@ class HandlerTask(Task):
             return self.waitTask()
 
         h.device_in = dev.link
-        dev.datum = work.data[count]
+        dev.datum = work.\data[count]
         work.datum = count + 1
         return self.qpkt(dev)
 
@@ -307,7 +307,7 @@ class IdleTask(Task):
         else:
             i.control = i.control/2 ^ 0xd008
             return self.release(I_DEVB)
-            
+
 
 # WorkTask
 
@@ -337,7 +337,7 @@ class WorkTask(Task):
             w.count += 1
             if w.count > 26:
                 w.count = 1
-            pkt.data[i] = A + w.count - 1
+            pkt.\data[i] = A + w.count - 1
 
         return self.qpkt(pkt)
 
@@ -385,7 +385,7 @@ class Richards(object):
             wkq = None;
             DeviceTask(I_DEVA, 4000, wkq, TaskState().waiting(), DeviceTaskRec());
             DeviceTask(I_DEVB, 5000, wkq, TaskState().waiting(), DeviceTaskRec());
-            
+
             schedule()
 
             if taskWorkArea.holdCount == 9297 and taskWorkArea.qpktCount == 23246:

@@ -11,12 +11,12 @@ class Vector(object):
         return "Vector(%f, %f, %f)" % (self.x, self.y, self.z)
 
 def f(n):
-    v = Vector(0,0,0)
+    v = Vector(0, 0, 0)
     a = Vector(1.0, 1.1, 1.2)
     # b = Vector(1, -2, 1)
-    for i in xrange(n):
+    for i in range(n):
         # if v.y > 0:
             # v = v + b
         v = v + a
     return v
-print f(10000000)
+print(f(10000000))

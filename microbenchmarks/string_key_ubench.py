@@ -4,7 +4,7 @@
 
 def f():
     d = {'a':1}
-    for i in xrange(3000000):
+    for i in range(3000000):
         d['a']
         d['a']
         d['a']

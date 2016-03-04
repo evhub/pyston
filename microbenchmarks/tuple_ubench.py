@@ -1,4 +1,4 @@
-l = range(256)
+l = list(range(256))
 
-for i in xrange(200000):
+for i in range(200000):
     tuple(l)

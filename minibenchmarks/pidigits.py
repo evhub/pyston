@@ -5,7 +5,7 @@ PIDIGITS_LEN = 1500
 def pidigits(length):
     i = k = ns = 0
     k1 = 1
-    n,a,d,t,u = 1,0,1,0,0
+    n, a, d, t, u = 1, 0, 1, 0, 0
     while(True):
         k += 1
         t = n<<1
@@ -15,7 +15,7 @@ def pidigits(length):
         a *= k1
         d *= k1
         if a >= n:
-            t,u = divmod(n*3 + a,d)
+            t, u = divmod(n*3 + a, d)
             u += n
             if d > u:
                 ns = ns*10 + t

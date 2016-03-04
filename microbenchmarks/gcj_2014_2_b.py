@@ -14,9 +14,9 @@ if __name__ == "__main__":
             f = open(fn)
 
     T = 100
-    for _T in xrange(T):
+    for _T in range(T):
         N = 1000
-        nums = [randint() for i in xrange(N)]
+        nums = [randint() for i in range(N)]
 
         r = 0
         while nums:
@@ -26,4 +26,4 @@ if __name__ == "__main__":
             r += min(i, len(nums)-1-i)
             del nums[i]
 
-        print "Case #%d: %d" % (_T+1, r)
+        print("Case #%d: %d" % (_T+1, r))

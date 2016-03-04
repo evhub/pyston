@@ -12,14 +12,14 @@ if __name__ == "__main__":
     l = s.split('\n')
 
     T = int(l.pop(0))
-    for _T in xrange(T):
-        P, Q, N = map(int, l.pop(0).split())
+    for _T in range(T):
+        P, Q, N = list(map(int, l.pop(0).split()))
 
         healths = []
         golds = []
 
-        for i in xrange(N):
-            h, g = map(int, l.pop(0).split())
+        for i in range(N):
+            h, g = list(map(int, l.pop(0).split()))
             healths.append(h)
             golds.append(g)
 
@@ -43,7 +43,7 @@ if __name__ == "__main__":
 
         cur = {1: 0}
 
-        for i in xrange(N):
+        for i in range(N):
             next = {}
 
             hits_needed = num_hits_to_win(healths[i])
@@ -52,7 +52,7 @@ if __name__ == "__main__":
             # print
             # print "On creep %d" % i
 
-            for shots, money in cur.iteritems():
+            for shots, money in cur.items():
                 # print "Could have %d shots and %d gold" % (shots, money)
                 do_nothing = (healths[i] + Q-1) / Q + shots
 
@@ -82,7 +82,7 @@ if __name__ == "__main__":
             cur = next
 
         # print cur
-        best = max(cur.itervalues())
-        print "Case #%d: %d" % (_T+1, best)
+        best = max(cur.values())
+        print("Case #%d: %d" % (_T+1, best))
 
 

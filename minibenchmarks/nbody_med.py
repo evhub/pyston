@@ -9,12 +9,12 @@ import time
 
 def combinations(l):
     result = []
-    for x in xrange(len(l) - 1):
-        for j in xrange(x+1, len(l)):
+    for x in range(len(l) - 1):
+        for j in range(x+1, len(l)):
         # ls = l[x+1:]
         # for y in ls:
             y = l[j]
-            result.append((l[x],y))
+            result.append((l[x], y))
     return result
 
 PI = 3.14159265358979323
@@ -57,7 +57,7 @@ BODIES = {
                 5.15138902046611451e-05 * SOLAR_MASS) }
 
 
-SYSTEM = BODIES.values()
+SYSTEM = list(BODIES.values())
 PAIRS = combinations(SYSTEM)
 
 
@@ -65,7 +65,7 @@ def advance(dt, n):
     bodies=SYSTEM
     pairs=PAIRS
 
-    for i in xrange(n):
+    for i in range(n):
         for (((x1, y1, z1), v1, m1),
              ((x2, y2, z2), v2, m2)) in pairs:
             dx = x1 - x2
@@ -122,11 +122,11 @@ def main(n, ref):
         offset_momentum(BODIES[ref], SYSTEM, 0.0, 0.0, 0.0)
         e1 = report_energy()
         advance(0.01, NUMBER_OF_ITERATIONS)
-        print e1 - report_energy()
+        print(e1 - report_energy())
         tk = time.time()
         times.append(tk - t0)
     return times
 
-main(40,2)
+main(40, 2)
 
 

@@ -11,11 +11,11 @@ class Vector(object):
         return self.x * rhs.x + self.y * rhs.y + self.z * rhs.z
 
 def f(n):
-    v = Vector(0,0.1,0)
+    v = Vector(0, 0.1, 0)
     a = Vector(1.0, 1.1, 1.2)
     t = 0
-    for i in xrange(n):
+    for i in range(n):
         t = t + v.dot(a)
     return t
-print f(10000000)
+print(f(10000000))
 

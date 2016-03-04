@@ -10,7 +10,7 @@ def f(n):
     assert N % n == 0
 
     l2 = []
-    for i in xrange(n):
+    for i in range(n):
         class C(object):
             pass
         c = C()
@@ -21,7 +21,7 @@ def f(n):
         l += l2
 
     t = 0
-    for _ in xrange(20000):
+    for _ in range(20000):
         for o in l:
             t += o.x
 

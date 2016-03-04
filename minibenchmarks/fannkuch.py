@@ -1,17 +1,17 @@
 import time
 
 def fannkuch(n):
-    count = range(1, n+1)
+    count = list(range(1, n+1))
     max_flips = 0
     m = n-1
     r = n
     check = 0
-    perm1 = range(n)
-    perm = range(n)
+    perm1 = list(range(n))
+    perm = list(range(n))
     perm1_ins = perm1.insert
     perm1_pop = perm1.pop
 
-    while 1:
+    while True:
         if check < 30:
             #print "".join(str(i+1) for i in perm1)
             check = check + 1
@@ -46,7 +46,7 @@ DEFAULT_ARG = 9
 def main(n):
     for i in range(2, n):
         t0 = time.time()
-        print fannkuch(i)
+        print(fannkuch(i))
         tk = time.time()
-        print tk - t0
+        print(tk - t0)
 main(11)

@@ -2,7 +2,7 @@ class Random(object):
     def __init__(self, seed):
         self.cur = seed
 
-    def next(self):
+    def __next__(self):
         self.cur = (self.cur * 1103515245 + 12345) % (1 << 31)
         return self.cur
 
@@ -86,7 +86,7 @@ class InterpVisitor(object):
             return l <= r
         if node.op == "==":
             return l == r
-        print node.op
+        print(node.op)
         1/0
 
     def visit_astif(self, node):
@@ -98,7 +98,7 @@ class InterpVisitor(object):
 
     def visit_astprint(self, node):
         v = self.visit(node.expr)
-        print v
+        print(v)
 
 def run(node):
     visit(InterpVisitor(), node)

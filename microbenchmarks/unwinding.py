@@ -6,7 +6,7 @@ def wrap(f, n):
 def throws():
     raise AttributeError
 
-for i in xrange(10000):
+for i in range(10000):
     try:
         wrap(throws, 500)
     except AttributeError:

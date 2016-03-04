@@ -16,4 +16,4 @@ while n:
         pass
     s(f, n)
     p(f, p)
-print p.n
+print(p.n)

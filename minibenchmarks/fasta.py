@@ -30,7 +30,7 @@ alu = (
    'AGGCGGAGGTTGCAGTGAGCCGAGATCGCGCCACTGCACTCC'
    'AGCCTGGGCGACAGAGCGAGACTCCGTCTCAAAAA')
 
-iub = zip('acgtBDHKMNRSVWY', [0.27, 0.12, 0.12, 0.27] + [0.02]*11)
+iub = list(zip('acgtBDHKMNRSVWY', [0.27, 0.12, 0.12, 0.27] + [0.02]*11))
 
 homosapiens = [
     ('a', 0.3029549426680),
@@ -43,7 +43,7 @@ homosapiens = [
 def genRandom(lim, ia = 3877, ic = 29573, im = 139968):
     seed = 42
     imf = float(im)
-    while 1:
+    while True:
         seed = (seed * ia + ic) % im
         yield lim * seed / imf
 
@@ -63,23 +63,23 @@ def repeatFasta(src, n):
     width = 60
     r = len(src)
     s = src + src + src[:n % r]
-    for j in xrange(n // width):
+    for j in range(n // width):
         i = j*width % r
-        print s[i:i+width]
+        print(s[i:i+width])
     if n % width:
-        print s[-(n % width):]
+        print(s[-(n % width):])
 
 def randomFasta(table, n):
     width = 60
-    r = xrange(width)
-    gR = Random.next
+    r = range(width)
+    gR = Random.__next__
     bb = bisect.bisect
     jn = ''.join
     probs, chars = makeCumulative(table)
-    for j in xrange(n // width):
-        print jn([chars[bb(probs, gR())] for i in r])
+    for j in range(n // width):
+        print(jn([chars[bb(probs, gR())] for i in r]))
     if n % width:
-        print jn([chars[bb(probs, gR())] for i in xrange(n % width)])
+        print(jn([chars[bb(probs, gR())] for i in range(n % width)]))
 
 
 #n = int(sys.argv[1])
@@ -88,14 +88,14 @@ def randomFasta(table, n):
 n = 1000
 
 for i in range(int(1000)):
-    print '>ONE Homo sapiens alu'
+    print('>ONE Homo sapiens alu')
     repeatFasta(alu, n*2)
 
-    print '>TWO IUB ambiguity codes'
+    print('>TWO IUB ambiguity codes')
     randomFasta(iub, n*3)
 
-    print '>THREE Homo sapiens frequency'
+    print('>THREE Homo sapiens frequency')
     randomFasta(homosapiens, n*5)
     
 sys.stdout = old_stdout
-print hash_output.md5hash()
+print(hash_output.md5hash())

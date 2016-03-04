@@ -59,15 +59,15 @@ class Vector(object):
         d = normal.scale(self.dot(normal))
         return self - d.scale(2)
 
-VZERO = Vector(0,0,0)
-VRIGHT = Vector(1,0,0)
-VUP = Vector(0,1,0)
-VOUT = Vector(0,0,1)
+VZERO = Vector(0, 0, 0)
+VRIGHT = Vector(1, 0, 0)
+VUP = Vector(0, 1, 0)
+VOUT = Vector(0, 0, 1)
 
 if not (VRIGHT.reflectThrough(VUP) == VRIGHT):
-    print 1/0
-if not (Vector(-1,-1,0).reflectThrough(VUP) == Vector(-1,1,0)):
-    print 1/0
+    print(1/0)
+if not (Vector(-1, -1, 0).reflectThrough(VUP) == Vector(-1, 1, 0)):
+    print(1/0)
 
 class Point(object):
     def __init__(self, initx, inity, initz):
@@ -142,10 +142,10 @@ class Ray(object):
     def pointAtTime(self, t):
         return self.point + self.vector.scale(t)
 
-PZERO = Point(0,0,0)
+PZERO = Point(0, 0, 0)
 
-a = Vector(3,4,12)
-b = Vector(1,1,1)
+a = Vector(3, 4, 12)
+b = Vector(1, 1, 1)
 
 class PpmCanvas(object):
     def __init__(self, width, height, filenameBase):
@@ -216,21 +216,21 @@ class Scene(object):
         for y in range(canvas.height):
             currentfraction = 1.0 * y / canvas.height
             if currentfraction - previousfraction > 0.05:
-                print '%d%% complete' % int(currentfraction * 100)
+                print('%d%% complete' % int(currentfraction * 100))
                 previousfraction = currentfraction
             for x in range(canvas.width):
                 xcomp = vpRight.scale(x * pixelWidth - halfWidth)
                 ycomp = vpUp.scale(y * pixelHeight - halfHeight)
                 ray = Ray(eye.point, eye.vector + xcomp + ycomp)
                 colour = self.rayColour(ray)
-                canvas.plot(x,y,colour[0], colour[1], colour[2])
+                canvas.plot(x, y, colour[0], colour[1], colour[2])
 
-        print 'Complete.'
+        print('Complete.')
         # canvas.save()
 
     def rayColour(self, ray):
         if self.recursionDepth > 3:
-            return (0.0,0.0,0.0)
+            return (0.0, 0.0, 0.0)
 
         self.recursionDepth = self.recursionDepth + 1
         intersections = []
@@ -240,7 +240,7 @@ class Scene(object):
         i = firstIntersection(intersections)
         if i[1] > INF:
             self.recursionDepth = self.recursionDepth - 1
-            return (0.0,0.0,0.0) ## the background colour
+            return (0.0, 0.0, 0.0) ## the background colour
         else:
             (o, t, s) = i
             p = ray.pointAtTime(t)
@@ -250,7 +250,7 @@ class Scene(object):
 
     def _lightIsVisible(self, l, p):
         for (on, oi, sc) in self.objects:
-            t = oi(Ray(p,l - p))
+            t = oi(Ray(p, l - p))
             if t < INF and t > EPSILON:
                 return False
         return True
@@ -293,7 +293,7 @@ class SimpleSurface(object):
                 contribution = (lightPoint - p).normalized().dot(normal)
                 if contribution > 0:
                     lambertAmount = lambertAmount + contribution
-            lambertAmount = min(1,lambertAmount)
+            lambertAmount = min(1, lambertAmount)
             c = addColours(c, self.lambertCoefficient * lambertAmount, b)
 
         if self.ambientCoefficient > 0:
@@ -324,7 +324,7 @@ class CheckerboardSurface(object):
     def colourAt(self, scene, ray, p, normal):
         b = self.baseColourAt(p)
 
-        c = (0.0,0.0,0.0)
+        c = (0.0, 0.0, 0.0)
         if self.specularCoefficient > 0:
             reflectedRay = Ray(p, ray.vector.reflectThrough(normal))
             #print p, normal, ray.vector, reflectedRay.vector
@@ -337,7 +337,7 @@ class CheckerboardSurface(object):
                 contribution = (lightPoint - p).normalized().dot(normal)
                 if contribution > 0:
                     lambertAmount = lambertAmount + contribution
-            lambertAmount = min(1,lambertAmount)
+            lambertAmount = min(1, lambertAmount)
             c = addColours(c, self.lambertCoefficient * lambertAmount, b)
 
         if self.ambientCoefficient > 0:
@@ -350,21 +350,21 @@ def _main():
     # c = Canvas(4,2,'test_raytrace_tiny')
     # c = Canvas(80,60,'test_raytrace_small')
     # c = Canvas(160,120,'test_raytrace')
-    c = Canvas(320,240,'test_raytrace')
+    c = Canvas(320, 240, 'test_raytrace')
     # c = Canvas(640,480,'test_raytrace_big')
     s = Scene()
     s.addLight(Point(30, 30, 10))
     s.addLight(Point(-10, 100, 30))
     s.lookAt(Point(0, 2, 0))
 
-    obj = Sphere(Point(1,3,-10), 2)
-    surf = SimpleSurface((1.0,1.0,0.0))
+    obj = Sphere(Point(1, 3, -10), 2)
+    surf = SimpleSurface((1.0, 1.0, 0.0))
     s.addObject(obj.normalAt, obj.intersectionTime, surf.colourAt)
     for y in range(6):
         obj = Sphere(Point(-3 - y * 0.4, 2.3, -5), 0.4)
         surf = SimpleSurface((y / 6.0, 1 - y / 6.0, 0.5))
         s.addObject(obj.normalAt, obj.intersectionTime, surf.colourAt)
-    obj = Halfspace(Point(0,0,0), VUP)
+    obj = Halfspace(Point(0, 0, 0), VUP)
     surf = CheckerboardSurface()
     s.addObject(obj.normalAt, obj.intersectionTime, surf.colourAt)
     s.render(c)

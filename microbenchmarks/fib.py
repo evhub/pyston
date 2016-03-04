@@ -6,4 +6,4 @@ def fib(n, f):
         return n
     return f(n-1, f) + f(n-2, f)
 
-print fib(36, fib)
+print(fib(36, fib))

@@ -14,7 +14,7 @@ MAXMOVES = SIZE*SIZE*3
 TIMESTAMP = 0
 MOVES = 0
 
-def to_pos(x,y):
+def to_pos(x, y):
     return y * SIZE + x
 
 def to_xy(pos):
@@ -27,7 +27,7 @@ class Square:
         self.pos = pos
         self.timestamp = TIMESTAMP
         self.removestamp = TIMESTAMP
-        self.zobrist_strings = [random.randrange(sys.maxint) for i in range(3)]
+        self.zobrist_strings = [random.randrange(sys.maxsize) for i in range(3)]
 
     def set_neighbours(self): 
         x, y = self.pos % SIZE, self.pos / SIZE;
@@ -96,8 +96,8 @@ class Square:
 class EmptySet:
     def __init__(self, board):
         self.board = board
-        self.empties = range(SIZE*SIZE)
-        self.empty_pos = range(SIZE*SIZE)
+        self.empties = list(range(SIZE*SIZE))
+        self.empty_pos = list(range(SIZE*SIZE))
 
     def random_choice(self):
         choices = len(self.empties)
@@ -251,7 +251,7 @@ class Board:
            if square.color == EMPTY:
                continue
 
-           members1 = set([square])
+           members1 = {square}
            changed = True
            while changed:
                changed = False
@@ -391,7 +391,7 @@ class UCTNode:
 
 def user_move(board):
     while True:
-        text = raw_input('?').strip()
+        text = input('?').strip()
         if text == 'p':
             return PASS
         if text == 'q':
@@ -423,7 +423,7 @@ def computer_move(board):
     return tree.best_visited().pos
 
 def versus_cpu():
-    print "versus_cpu"
+    print("versus_cpu")
     random.seed(1)
     board = Board()
     pos = computer_move(board)

@@ -10,10 +10,10 @@ def f(n):
     assert N % n == 0
 
     while len(l) < N:
-        l += range(n)
+        l += list(range(n))
 
     t = 0
-    for _ in xrange(2000):
+    for _ in range(2000):
         for i in l:
             if i & 1: t += 1
             else: t += 2

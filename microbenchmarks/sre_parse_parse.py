@@ -4,5 +4,5 @@
 
 import sre_compile
 
-for i in xrange(1000):
+for i in range(1000):
     sre_compile.compile("", 0)

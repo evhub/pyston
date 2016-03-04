@@ -1,9 +1,9 @@
 def f():
     # Try to eliminate as much non-exception stuff as possible:
-    from __builtin__ import Exception
+    from builtins import Exception
     e = Exception()
 
-    for i in xrange(20000):
+    for i in range(20000):
         try:
             raise e
         except Exception:

@@ -2,8 +2,8 @@
 
 L = 10
 
-xrows = range(L)
-xcols = range(L)
+xrows = list(range(L))
+xcols = list(range(L))
 
 bitmap = [0] * L ** 2
 
@@ -25,10 +25,10 @@ posgaid = [[(g + h, h) for h in range(L) if -1 < g + h < L] for g in range(-L + 
 
 def attacks(pos):
     """ all attacked positions """
-    row = filter(lambda r: pos in r, posrows)
-    col = filter(lambda c: pos in c, poscols)
-    dia = filter(lambda d: pos in d, posdiag)
-    gai = filter(lambda g: pos in g, posgaid)
+    row = [r for r in posrows if pos in r]
+    col = [c for c in poscols if pos in c]
+    dia = [d for d in posdiag if pos in d]
+    gai = [g for g in posgaid if pos in g]
     assert len(row) == len(col) == len(dia) == len(gai) == 1
     return frozenset(row[0]), frozenset(col[0]), frozenset(dia[0]), frozenset(gai[0])
 
@@ -95,4 +95,4 @@ def run():
     place(poss, sorted(["Q%s" % i for i in range(L)]), setrows, setcols, setdiag, setgaid)
     return len(solutions)
 
-print(run())
+print((run()))

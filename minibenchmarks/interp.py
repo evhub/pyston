@@ -3,7 +3,7 @@ class Random(object):
     def __init__(self, seed):
         self.cur = seed
 
-    def next(self):
+    def __next__(self):
         self.cur = (self.cur * 1103515245 + 12345) % (1 << 31)
         return self.cur
 
@@ -52,7 +52,7 @@ def _run(state, node):
         return state.syms[node]
     elif isinstance(node, AstPrint):
         v = _run(state, node.expr)
-        print v
+        print(v)
     elif isinstance(node, AstBinop):
         l = _run(state, node.lhs)
         r = _run(state, node.rhs)
@@ -70,7 +70,7 @@ def _run(state, node):
             return l <= r
         if node.op == "==":
             return l == r
-        print node.op
+        print(node.op)
         1/0
     elif isinstance(node, AstIf):
         v = _run(state, node.test)
@@ -86,7 +86,7 @@ def _run(state, node):
             _run(state, node.body)
         return None
     else:
-        print type(node)
+        print(type(node))
         1/0
 
 def run(node):

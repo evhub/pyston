@@ -10,7 +10,7 @@ primarily by eval() performance.
 """
 
 # Wanted by the alphametics solver.
-from __future__ import division
+
 
 __author__ = "collinwinter@google.com (Collin Winter)"
 
@@ -27,11 +27,11 @@ def permutations(iterable, r=None):
     n = len(pool)
     if r is None:
         r = n
-    indices = range(n)
-    cycles = range(n-r+1, n+1)[::-1]
+    indices = list(range(n))
+    cycles = list(range(n-r+1, n+1))[::-1]
     yield tuple(pool[i] for i in indices[:r])
     while n:
-        for i in reversed(range(r)):
+        for i in reversed(list(range(r))):
             cycles[i] -= 1
             if cycles[i] == 0:
                 indices[i:] = indices[i+1:] + indices[i:i+1]
@@ -58,7 +58,7 @@ def n_queens(queen_count):
         (3, 8, 2, 1, 4, ..., 6) where each number is the column position for the
         queen, and the index into the tuple indicates the row.
     """
-    cols = range(queen_count)
+    cols = list(range(queen_count))
     for vec in permutations(cols):
         if (queen_count == len(set(vec[i]+i for i in cols))
                         == len(set(vec[i]-i for i in cols))):
@@ -71,7 +71,7 @@ def test_n_queens(iterations):
     list(n_queens(8))
 
     times = []
-    for _ in xrange(iterations):
+    for _ in range(iterations):
         t0 = time.time()
         list(n_queens(8))
         t1 = time.time()

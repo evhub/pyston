@@ -7,7 +7,7 @@ from django.conf import settings
 from django.apps import apps
 import time
 
-template_source = u"""
+template_source = """
 {% extends "admin/base_site.html" %}
 {% load i18n admin_static %}
 
@@ -107,6 +107,6 @@ elapsed = 0
 lexer = Lexer(template_source, None)
 tokens = lexer.tokenize()
 
-for i in xrange(500):
+for i in range(500):
     parser = Parser(list(tokens))
     parser.parse()

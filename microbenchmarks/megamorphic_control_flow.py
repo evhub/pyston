@@ -11,7 +11,7 @@ def f(m, n):
     assert M % m == 0
 
     l1 = []
-    for i in xrange(m):
+    for i in range(m):
         class C(object):
             pass
         c = C()
@@ -24,10 +24,10 @@ def f(m, n):
 
     ln = []
     while len(ln) < N:
-        ln += range(n)
+        ln += list(range(n))
 
     t = 0
-    for _ in xrange(400):
+    for _ in range(400):
         for i in ln:
             for o in lm:
                 if i & 1: t += o.x

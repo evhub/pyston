@@ -11,7 +11,7 @@ try:
 except:
     pyston_loaded = False
 
-template_source = u"""
+template_source = """
 {% extends "admin/base_site.html" %}
 {% load i18n admin_static %}
 
@@ -97,7 +97,7 @@ template_source = u"""
 """
 
 elapsed = 0
-for i in xrange(10000):
+for i in range(10000):
     # print i
     lexer = Lexer(template_source, None)
     lexer.tokenize()

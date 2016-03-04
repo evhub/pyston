@@ -1,6 +1,6 @@
 def f():
-    u = u"a" * 100
-    c = unicode
-    for i in xrange(2000000):
+    u = "a" * 100
+    c = str
+    for i in range(2000000):
         c(u)
 f()

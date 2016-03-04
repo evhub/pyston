@@ -47,7 +47,7 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 # add 100 people to the database 
-for i in xrange(100):
+for i in range(100):
     # Insert a Person in the person table
     new_person = Person.insert()
     new_person.execute(name="new person %d" % (i,) )
@@ -57,8 +57,8 @@ for i in xrange(100):
     new_address.execute(post_code='00000')#, person=new_person)
 
     # do 100 queries per insert
-    for i in xrange(100):
+    for i in range(100):
         s = Person.select()
         rs = s.execute()
 
-print "done"
+print("done")

@@ -17,4 +17,4 @@ while x:
     y = y + c(b)
     x = x - 1
 
-print y
+print(y)

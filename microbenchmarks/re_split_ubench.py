@@ -103,5 +103,5 @@ template_source = """
 {% endblock %}
 """
 
-for i in xrange(30000):
+for i in range(30000):
     tag_re.split(template_source)

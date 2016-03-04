@@ -10,5 +10,5 @@ def f():
             j = j + 1
         else:
             total = total + i
-    print total
+    print(total)
 f()

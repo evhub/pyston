@@ -1,5 +1,5 @@
 def g(n):
-    for i in xrange(n):
+    for i in range(n):
         yield n
 
-print len(list(g(2000000)))
+print(len(list(g(2000000))))

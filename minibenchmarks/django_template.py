@@ -110,10 +110,10 @@ apps.populate((
 ))
 
 elapsed = 0
-for i in xrange(500):
+for i in range(500):
     #if pyston_loaded:
     #    __pyston__.clearStats()
     start = time.time()
     template = Template(template_source, None, "admin/index.html")
     elapsed = time.time() - start
-print "took %4.1fms for last iteration" % (elapsed * 1000.0,)
+print("took %4.1fms for last iteration" % (elapsed * 1000.0,))

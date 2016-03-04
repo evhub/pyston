@@ -8,4 +8,4 @@ t = 0
 while n:
     n = n - 1
     t = t + outer()(n)
-print t
+print(t)

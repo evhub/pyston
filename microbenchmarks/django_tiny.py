@@ -13,14 +13,14 @@ DJANGO_TMPL = Template("""
 """.strip())
 
 def test_django():
-    table = [xrange(50) for _ in xrange(50)]
+    table = [range(50) for _ in range(50)]
     context = Context({"table": table, 'col': 1})
 
     times = []
 
     node = DJANGO_TMPL.nodelist[0]
     context.push()
-    for _ in xrange(100000):
+    for _ in range(100000):
         node.render(context)
     context.pop()
     return times

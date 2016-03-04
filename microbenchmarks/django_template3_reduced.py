@@ -132,21 +132,21 @@ d['app_list'] = [{'app_url': '/admin/auth/', 'models': [{'perms': {'add': True, 
 context = Context(d)
 
 def measure_iters():
-    for i in xrange(6000):
+    for i in range(6000):
         start = time.time()
         template.render(context)
         elapsed = time.time() - start
-        print elapsed
-    print "took %4.1fms for last iteration" % (elapsed * 1000.0,)
+        print(elapsed)
+    print("took %4.1fms for last iteration" % (elapsed * 1000.0,))
 
 def measure_by_nodetype():
     times = {}
-    for i in xrange(6000):
+    for i in range(6000):
         for n in template.nodelist:
             start = time.time()
             n.render(context)
             elapsed = time.time() - start
             times[type(n)] = times.get(type(n), 0) + elapsed
-    for k, v in sorted(times.items(), key=lambda (k,v):k.__name__):
-        print k.__name__, v
+    for k, v in sorted(list(times.items()), key=lambda k_v:k_v[0].__name__):
+        print(k.__name__, v)
 measure_by_nodetype()

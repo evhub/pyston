@@ -5,7 +5,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "../test/lib/pyxl/"))
 
 from pyxl.codec.register import pyxl_transform_string
 
-for i in xrange(100):
+for i in range(100):
     # pyxl/tests/test_if_1.py
     pyxl_transform_string(
 '''
@@ -16,7 +16,7 @@ def test():
     assert str(<frag><if cond="{False}">true</if><else>false</else></frag>) == "false"
 ''')
 
-for i in xrange(100):
+for i in range(100):
     # pyxl/tests/test_curlies_in_attrs_1.py
     pyxl_transform_string(
 '''
@@ -28,7 +28,7 @@ def test():
 
 
 
-for i in xrange(100):
+for i in range(100):
     # pyxl/tests/test_rss.py
     pyxl_transform_string(
 '''

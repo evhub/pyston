@@ -42,7 +42,7 @@ def make_random(x):
 
 # Create a 10k-ary tree, and score it 1k times
 r = make_random(10000)
-for i in xrange(1000):
+for i in range(1000):
     r.score()
 
 # Other test configurations that can be run:

@@ -7,8 +7,8 @@ def f(c):
         pass
 
 l = []
-r = range(500)
-for i in xrange(100):
+r = list(range(500))
+for i in range(100):
     l.append(itertools.chain(*[r for j in r]))
 c = itertools.chain(*l)
 f(c)

@@ -32,7 +32,7 @@ def f(niters, traceback_depth=TRACEBACK_DEPTH):
     if traceback_depth:
         f(niters, traceback_depth - 1)
     else:
-        for i in xrange(niters):
+        for i in range(niters):
             try:
                 recurser()
             except Exception:

@@ -18,7 +18,7 @@ the layout & logic from the original. (Ugh.)
 .. _`V8's source code`: (http://code.google.com/p/v8/source/browse/branches/bleeding_edge/benchmarks/deltablue.js)
 
 """
-from __future__ import print_function
+
 
 
 # The JS variant implements "OrderedCollection", which basically completely

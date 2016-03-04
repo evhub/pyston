@@ -6,12 +6,13 @@
 """create chaosgame-like fractals
 """
 
-from __future__ import division
+
 
 import operator
 import optparse
 import random
 import math
+from functools import reduce
 random.seed(1234)
 import sys
 import time
@@ -32,8 +33,7 @@ class GVector(object):
 
     def __add__(self, other):
         if not isinstance(other, GVector):
-            raise ValueError, \
-                    "Can't add GVector to " + str(type(other))
+            raise ValueError("Can't add GVector to " + str(type(other)))
         v = GVector(self.x + other.x, self.y + other.y, self.z + other.z)
         return v
 
@@ -61,7 +61,7 @@ class GVector(object):
         return "GVector(%f, %f, %f)" % (self.x, self.y, self.z)
 
 def GetKnots(points, degree):
-    knots = [0] * degree + range(1, len(points) - degree)
+    knots = [0] * degree + list(range(1, len(points) - degree))
     knots += [len(points) - degree] * degree
     return knots
 
@@ -74,14 +74,13 @@ degree of the Spline."""
             self.knots = GetKnots(points, degree)
         else:
             if len(points) > len(knots) - degree + 1:
-                raise ValueError, "too many control points"
+                raise ValueError("too many control points")
             elif len(points) < len(knots) - degree + 1:
-                raise ValueError, "not enough control points"
+                raise ValueError("not enough control points")
             last = knots[0]
             for cur in knots[1:]:
                 if cur < last:
-                    raise ValueError, \
-                          "knots not strictly increasing"
+                    raise ValueError("knots not strictly increasing")
                 last = cur
             self.knots = knots
         self.points = points
@@ -96,7 +95,7 @@ degree of the Spline."""
         """Calculates a point of the B-Spline using de Boors Algorithm"""
         dom = self.GetDomain()
         if u < dom[0] or u > dom[1]:
-            raise ValueError, "Function value not in domain"
+            raise ValueError("Function value not in domain")
         if u == dom[0]:
             return self.points[0]
         if u == dom[1]:
@@ -203,7 +202,7 @@ class Chaosgame(object):
             basepoint.y += -derivative.x / derivative.Mag() * (y - 0.5) * \
                            self.thickness
         else:
-            print "r",
+            print("r", end=' ')
         self.truncate(basepoint)
         return basepoint
 
@@ -224,9 +223,9 @@ class Chaosgame(object):
         colored = 0
         times = []
         for _ in range(n):
-            print _, n
+            print(_, n)
             t1 = time.time()
-            for i in xrange(5000):
+            for i in range(5000):
                 point = self.transform_point(point)
                 x = (point.x - self.minx) / self.width * w
                 y = (point.y - self.miny) / self.height * h

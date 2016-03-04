@@ -21,7 +21,7 @@ for i, k in enumerate(candidates.keys()):
 
 # And vice versa
 reverseCandidates = {}
-for k, v in candidates.items():
+for k, v in list(candidates.items()):
     reverseCandidates[v] = k
 
 # Turn the votes in to an index number
@@ -70,7 +70,7 @@ for i in range(size):
 # Put the candidate on the final list, remove the candidate from p and
 # repeat
 order = []
-cl = range(size)
+cl = list(range(size))
 
 while cl:
     for c in cl:
@@ -86,4 +86,4 @@ while cl:
 j = 0
 for i in order:
     j += 1
-    print '%3d %s' % (j, reverseCandidates[i])
+    print('%3d %s' % (j, reverseCandidates[i]))

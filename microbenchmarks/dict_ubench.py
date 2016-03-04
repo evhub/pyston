@@ -1,4 +1,4 @@
 def f():
-    for i in xrange(10000000):
+    for i in range(10000000):
         {}
 f()

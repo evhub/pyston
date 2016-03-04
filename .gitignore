@@ -64,3 +64,5 @@ compile.log
 *.out
 
 *~
+
+*.py

@@ -15,29 +15,29 @@ class Tokenizer:
             try:
                 c = self.string[self.index + 1]
             except IndexError:
-                raise error, "bogus escape (end of line)"
+                raise error("bogus escape (end of line)")
             char = char + c
         self.index = self.index + len(char)
         self.next = char
     def \match(self, char, skip=1):
-        if char == self.next:
+        if char == self.__next__:
             if skip:
                 self.__next()
             return 1
         return 0
     def get(self):
-        this = self.next
+        this = self.__next__
         self.__next()
         return this
     def tell(self):
-        return self.index, self.next
+        return self.index, self.__next__
     def seek(self, index):
         self.index, self.next = index
 
-for i in xrange(1000):
+for i in range(1000):
     t = Tokenizer(pattern)
 
-    for j in xrange(500):
+    for j in range(500):
         t._Tokenizer__next()
         # n = t.get()
         # if not n:

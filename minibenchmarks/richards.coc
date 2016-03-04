@@ -23,17 +23,17 @@ K_WORK = 1001
 
 BUFSIZE = 4
 
-BUFSIZE_RANGE = range(BUFSIZE)
+BUFSIZE_RANGE = list(range(BUFSIZE))
 
 class Packet(object):
-    def __init__(self,l,i,k):
+    def __init__(self, l, i, k):
         self.link = l
         self.ident = i
         self.kind = k
         self.datum = 0
         self.\data = [0] * BUFSIZE
 
-    def append_to(self,lst):
+    def append_to(self, lst):
         self.link = None
         if lst is None:
             return self
@@ -65,11 +65,11 @@ class HandlerTaskRec(TaskRec):
         self.work_in = None
         self.device_in = None
 
-    def workInAdd(self,p):
+    def workInAdd(self, p):
         self.work_in = p.append_to(self.work_in)
         return self.work_in
 
-    def deviceInAdd(self,p):
+    def deviceInAdd(self, p):
         self.device_in = p.append_to(self.device_in)
         return self.device_in
 
@@ -135,9 +135,9 @@ def trace(a):
     global layout
     layout -= 1
     if layout <= 0:
-        print
+        print()
         layout = 50
-    print a,
+    print(a, end=' ')
 
 
 TASKTABSIZE = 10
@@ -156,7 +156,7 @@ taskWorkArea = TaskWorkArea()
 class Task(TaskState):
 
 
-    def __init__(self,i,p,w,initialState,r):
+    def __init__(self, i, p, w, initialState, r):
         self.link = taskWorkArea.taskList
         self.ident = i
         self.priority = p
@@ -171,11 +171,11 @@ class Task(TaskState):
         taskWorkArea.taskList = self
         taskWorkArea.taskTab[i] = self
 
-    def fn(self,pkt,r):
+    def fn(self, pkt, r):
         raise NotImplementedError
 
 
-    def addPacket(self,p,old):
+    def addPacket(self, p, old):
         if self.input is None:
             self.input = p
             self.packet_pending = True
@@ -197,7 +197,7 @@ class Task(TaskState):
         else:
             msg = None
 
-        return self.fn(msg,self.handle)
+        return self.fn(msg, self.handle)
 
 
     def waitTask(self):
@@ -211,7 +211,7 @@ class Task(TaskState):
         return self.link
 
 
-    def release(self,i):
+    def release(self, i):
         t = self.findtcb(i)
         t.task_holding = False
         if t.priority > self.priority:
@@ -220,15 +220,15 @@ class Task(TaskState):
             return self
 
 
-    def qpkt(self,pkt):
+    def qpkt(self, pkt):
         t = self.findtcb(pkt.ident)
         taskWorkArea.qpktCount += 1
         pkt.link = None
         pkt.ident = self.ident
-        return t.addPacket(pkt,self)
+        return t.addPacket(pkt, self)
 
 
-    def findtcb(self,id):
+    def findtcb(self, id):
         t = taskWorkArea.taskTab[id]
         if t is None:
             raise Exception("Bad task id %d" % id)
@@ -239,10 +239,10 @@ class Task(TaskState):
 
 
 class DeviceTask(Task):
-    def __init__(self,i,p,w,s,r):
-        Task.__init__(self,i,p,w,s,r)
+    def __init__(self, i, p, w, s, r):
+        Task.__init__(self, i, p, w, s, r)
 
-    def fn(self,pkt,r):
+    def fn(self, pkt, r):
         d = r
         assert isinstance(d, DeviceTaskRec)
         if pkt is None:
@@ -260,10 +260,10 @@ class DeviceTask(Task):
 
 
 class HandlerTask(Task):
-    def __init__(self,i,p,w,s,r):
-        Task.__init__(self,i,p,w,s,r)
+    def __init__(self, i, p, w, s, r):
+        Task.__init__(self, i, p, w, s, r)
 
-    def fn(self,pkt,r):
+    def fn(self, pkt, r):
         h = r
         assert isinstance(h, HandlerTaskRec)
         if pkt is not None:
@@ -292,10 +292,10 @@ class HandlerTask(Task):
 
 
 class IdleTask(Task):
-    def __init__(self,i,p,w,s,r):
-        Task.__init__(self,i,0,None,s,r)
+    def __init__(self, i, p, w, s, r):
+        Task.__init__(self, i, 0, None, s, r)
 
-    def fn(self,pkt,r):
+    def fn(self, pkt, r):
         i = r
         assert isinstance(i, IdleTaskRec)
         i.count -= 1
@@ -315,10 +315,10 @@ class IdleTask(Task):
 A = ord('A')
 
 class WorkTask(Task):
-    def __init__(self,i,p,w,s,r):
-        Task.__init__(self,i,p,w,s,r)
+    def __init__(self, i, p, w, s, r):
+        Task.__init__(self, i, p, w, s, r)
 
-    def fn(self,pkt,r):
+    def fn(self, pkt, r):
         w = r
         assert isinstance(w, WorkerTaskRec)
         if pkt is None:
@@ -351,7 +351,7 @@ def schedule():
         pkt = None
 
         if tracing:
-            print "tcb =",t.ident
+            print("tcb =", t.ident)
 
         if t.isTaskHoldingOrWaiting():
             t = t.link
@@ -362,24 +362,24 @@ def schedule():
 class Richards(object):
 
     def run(self, iterations):
-        for i in xrange(iterations):
+        for i in range(iterations):
             taskWorkArea.holdCount = 0
             taskWorkArea.qpktCount = 0
 
             IdleTask(I_IDLE, 1, 10000, TaskState().running(), IdleTaskRec())
 
             wkq = Packet(None, 0, K_WORK)
-            wkq = Packet(wkq , 0, K_WORK)
+            wkq = Packet(wkq, 0, K_WORK)
             WorkTask(I_WORK, 1000, wkq, TaskState().waitingWithPacket(), WorkerTaskRec())
 
             wkq = Packet(None, I_DEVA, K_DEV)
-            wkq = Packet(wkq , I_DEVA, K_DEV)
-            wkq = Packet(wkq , I_DEVA, K_DEV)
+            wkq = Packet(wkq, I_DEVA, K_DEV)
+            wkq = Packet(wkq, I_DEVA, K_DEV)
             HandlerTask(I_HANDLERA, 2000, wkq, TaskState().waitingWithPacket(), HandlerTaskRec())
 
             wkq = Packet(None, I_DEVB, K_DEV)
-            wkq = Packet(wkq , I_DEVB, K_DEV)
-            wkq = Packet(wkq , I_DEVB, K_DEV)
+            wkq = Packet(wkq, I_DEVB, K_DEV)
+            wkq = Packet(wkq, I_DEVB, K_DEV)
             HandlerTask(I_HANDLERB, 3000, wkq, TaskState().waitingWithPacket(), HandlerTaskRec())
 
             wkq = None;
@@ -403,15 +403,15 @@ def entry_point(iterations):
     return result, startTime, endTime
 
 def main(entry_point = entry_point, iterations = 10):
-    print "Richards benchmark (Python) starting... [%r]" % entry_point
+    print("Richards benchmark (Python) starting... [%r]" % entry_point)
     result, startTime, endTime = entry_point(iterations)
     if not result:
-        print "Incorrect results!"
+        print("Incorrect results!")
         return -1
-    print "finished."
+    print("finished.")
     total_s = endTime - startTime
-    print "Total time for %d iterations: %.2f secs" %(iterations,total_s)
-    print "Average time per iteration: %.2f ms" %(total_s*1000/iterations)
+    print("Total time for %d iterations: %.2f secs" %(iterations, total_s))
+    print("Average time per iteration: %.2f ms" %(total_s*1000/iterations))
     return 42
 
 if __name__ == '__main__':

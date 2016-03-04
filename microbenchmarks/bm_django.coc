@@ -23,11 +23,11 @@ DJANGO_TMPL = Template("""<table>
 """)
 
 def test_django(count):
-    table = [xrange(50) for _ in xrange(50)]
+    table = [range(50) for _ in range(50)]
     context = Context({"table": table})
 
     times = []
-    for _ in xrange(count):
+    for _ in range(count):
         t0 = time.time()
         \data = DJANGO_TMPL.render(context)
         t1 = time.time()

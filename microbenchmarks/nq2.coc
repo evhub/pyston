@@ -32,10 +32,7 @@ def attacks(pos):
     assert len(row) == len(col) == len(dia) == len(gai) == 1
     return frozenset(row[0]), frozenset(col[0]), frozenset(dia[0]), frozenset(gai[0])
 
-attackmap = {}
-for i in range(L):
-    for j in range(L):
-        attackmap[(i, j)] = attacks((i, j))
+attackmap = {(i, j): attacks((i, j)) for i in range(L) for j in range(L)}
 
 setcols = set(map(frozenset, poscols))
 setrows = set(map(frozenset, posrows))

@@ -1,15 +1,28 @@
 import sys
 import os.path
-from coconut.icoconut import fakefile
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+def main():
+    from microbenchmarks import attribute_lookup, attrs, closures, contains_ubench, dict_globals_ubench, dict_hashing_ubench, dict_ubench, empty_loop, exceptions_2_ubench, exceptions_ubench, fib, fib2, function_calls, gcj_2014_2_b, gcj_2014_3_b, generator_switching, getattrfunc_ubench, iteration, itertools_chain_bench, listcomp_bench, loop, namedtuple_ubench, nested, nq2, oldstyle_class_ubench, oldstyle_iteration, polymorphism, prime_summing, pydigits, repatching, re_finditer_bench, re_perf, re_split_ubench, set_sub_ubench, simple_sum, sort, sre_compile_bench, sre_compile_bench2, sre_parse_bench, sre_parse_parse, string_key_ubench, str_comparison_ubench, str_find_ubench, tuple_ubench, unicode_ctor_bench, unicode_split_ubench, unwinding, vecf_add, vecf_dot
+    from minibenchmarks import allgroup, bm_ai, chaos, deltablue, fannkuch, fannkuch_med, fasta, go, interp, interp2, iobench, nbody, nbody_med, nq, pidigits, pyaes, pyxl_bench, raytrace, richards, schulze, spectral_norm, sqlalchemy_declarative, sqlalchemy_imperative
 
-stdout = sys.stdout
-sys.stdout = fakefile(lambda _: stdout.write("."))
+def safe():
+    from coconut.icoconut import fakefile
+    stdout = sys.stdout
+    try:
+        sys.stdout = fakefile(lambda _: stdout.write("."))
+        try:
+            main()
+        finally:
+            sys.stdout.close()
+    finally:
+        sys.stdout = stdout
 
-try:
-    from microbenchmarks import attribute_lookup, attrs, closures, contains_ubench, dict_globals_ubench, dict_hashing_ubench, dict_ubench, empty_loop, exceptions_2_ubench, exceptions_ubench, fib, fib2, function_calls, gcj_2014_2_b, gcj_2014_3_b, generator_switching, getattrfunc_ubench, iteration, itertools_chain_bench, listcomp_bench, loop, namedtuple_ubench, nested, nq2, oldstyle_class_ubench, oldstyle_iteration, polymorphism, prime_summing, pydigits, repatching, re_finditer_bench, re_perf, re_split_ubench, set_sub_ubench, simple_sum, sort, sre_compile_bench, sre_compile_bench2, sre_optimize_unicode, sre_parse_bench, sre_parse_parse, string_key_ubench, str_comparison_ubench, str_find_ubench, thread_contention, thread_uncontended, tuple_ubench, unicode_ctor_bench, unicode_split_ubench, unwinding, vecf_add, vecf_dot
-    from minibenchmarks import allgroup, bm_ai, chaos, combined, deltablue, fannkuch, fannkuch_med, fasta, go, interp, interp2, iobench, nbody, nbody_med, nq, pidigits, pyaes, pyxl_bench, raytrace, richards, schulze, spectral_norm, sqlalchemy_declarative, sqlalchemy_imperative
-finally:
-    sys.stdout.close()
-    sys.stdout = stdout
+if __name__ == "__main__":
+    print(">")
+    try:
+        safe()
+    except:
+        print("|")
+        main()
+    print("!")

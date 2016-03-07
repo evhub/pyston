@@ -19,7 +19,7 @@ class Tokenizer:
             char = char + c
         self.index = self.index + len(char)
         self.next = char
-    def \match(self, char, skip=1):
+    def match(self, char, skip=1):
         if char == self.__next__:
             if skip:
                 self.__next()

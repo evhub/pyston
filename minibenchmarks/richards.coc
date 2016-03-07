@@ -31,7 +31,7 @@ class Packet(object):
         self.ident = i
         self.kind = k
         self.datum = 0
-        self.\data = [0] * BUFSIZE
+        self.data = [0] * BUFSIZE
 
     def append_to(self, lst):
         self.link = None
@@ -284,7 +284,7 @@ class HandlerTask(Task):
             return self.waitTask()
 
         h.device_in = dev.link
-        dev.datum = work.\data[count]
+        dev.datum = work.data[count]
         work.datum = count + 1
         return self.qpkt(dev)
 
@@ -337,7 +337,7 @@ class WorkTask(Task):
             w.count += 1
             if w.count > 26:
                 w.count = 1
-            pkt.\data[i] = A + w.count - 1
+            pkt.data[i] = A + w.count - 1
 
         return self.qpkt(pkt)
 

@@ -51,7 +51,7 @@ c = C()
 c.a = 1
 def f(c):
     n = 10000000
-    while n:
+    for i in range(n):
         c.a
 f(c)
 

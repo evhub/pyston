@@ -501,8 +501,8 @@ aes_Rcon = array('B',
 )
 
 # pyston change
-key = 'Very_secret'.ljust(16)
-iv = 'very random'.ljust(16)
-ciphertext = new(key, MODE_CBC, IV=iv).encrypt('pyston rocks!'.ljust(16))
-print(ciphertext.encode("hex"))
+key = b'Very_secret'.ljust(16)
+iv = b'very random'.ljust(16)
+ciphertext = new(key, MODE_CBC, IV=iv).encrypt(b'pyston rocks!'.ljust(16))
+print(ciphertext.encode(b"hex"))
 print(new(key, MODE_CBC, IV=iv).decrypt(ciphertext))

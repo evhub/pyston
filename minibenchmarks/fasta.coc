@@ -72,7 +72,7 @@ try:
     def randomFasta(table, n):
         width = 60
         r = range(width)
-        gR = Random.__next__
+        gR = lambda: next(Random)
         bb = bisect.bisect
         jn = ''.join
         probs, chars = makeCumulative(table)

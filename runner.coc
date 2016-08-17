@@ -21,7 +21,7 @@ def safe(fakefile):
 if __name__ == "__main__":
     try:
         from coconut.icoconut import fakefile
-    except:
+    except ImportError:
         print("[main]")
         main()
     else:

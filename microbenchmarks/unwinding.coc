@@ -8,6 +8,6 @@ def throws():
 
 for i in range(10000):
     try:
-        wrap(throws, 500)
+        wrap(throws, 250)
     except AttributeError:
         pass

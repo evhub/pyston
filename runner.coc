@@ -1,12 +1,51 @@
 import sys
 import os.path
 
+try:
+    from StringIO import StringIO
+except ImportError:
+    from io import StringIO
+
+
+class fakefile(StringIO):
+    """A file-like object wrapper around a messaging function."""
+    encoding = "utf-8"
+
+    def __init__(self, send):
+        """Initialize with a messaging function."""
+        StringIO.__init__(self)
+        self._send = send
+
+    def _refresh(self):
+        """Send value to the messaging function."""
+        self._send(self.getvalue())
+        self.seek(0)
+        self.truncate()
+
+    def flush(self, *args, **kwargs):
+        """Flush to the messaging function."""
+        StringIO.flush(self, *args, **kwargs)
+        self._refresh()
+
+    def write(self, *args, **kwargs):
+        """Write to the messaging function."""
+        StringIO.write(self, *args, **kwargs)
+        self._refresh()
+
+    def writelines(self, *args, **kwargs):
+        """Write lines to the messaging function."""
+        StringIO.writelines(self, *args, **kwargs)
+        self._refresh()
+
+
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
 def main():
     from microbenchmarks import attribute_lookup, attrs, closures, contains_ubench, dict_globals_ubench, dict_hashing_ubench, dict_ubench, empty_loop, exceptions_2_ubench, exceptions_ubench, fib, fib2, function_calls, gcj_2014_2_b, gcj_2014_3_b, generator_switching, getattrfunc_ubench, iteration, itertools_chain_bench, listcomp_bench, loop, namedtuple_ubench, nested, nq2, oldstyle_class_ubench, oldstyle_iteration, polymorphism, prime_summing, pydigits, repatching, re_finditer_bench, re_perf, re_split_ubench, set_sub_ubench, simple_sum, sort, sre_compile_bench, sre_compile_bench2, sre_parse_bench, sre_parse_parse, string_key_ubench, str_comparison_ubench, str_find_ubench, tuple_ubench, unicode_ctor_bench, unicode_split_ubench, unwinding, vecf_add, vecf_dot
     from minibenchmarks import allgroup, bm_ai, chaos, deltablue, fannkuch, fannkuch_med, fasta, go, interp, iobench, nbody, nbody_med, nq, pidigits, pyaes, raytrace, richards, schulze, spectral_norm
 
-def safe(fakefile):
+
+def safe(main):
     stdout = sys.stdout
     try:
         sys.stdout = fakefile(lambda _: stdout.write("."))
@@ -19,12 +58,5 @@ def safe(fakefile):
         print()
 
 if __name__ == "__main__":
-    try:
-        from coconut.icoconut import fakefile
-    except ImportError:
-        print("[main]")
-        main()
-    else:
-        print("[safe]")
-        safe(fakefile)
+    safe(main)
     print("<success>")
